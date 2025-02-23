@@ -1,0 +1,1 @@
+#training script of the model, also where wandb logs the metrics

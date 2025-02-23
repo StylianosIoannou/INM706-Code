@@ -1,0 +1,1 @@
+#this file will install all the required libraries and their versions
