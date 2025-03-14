@@ -1,0 +1,16 @@
+{
+  "os":  "Windows-10-10.0.26100-SP0",
+  "python":  "CPython 3.11.9",
+  "startedAt":  "2025-03-14T13:56:31.524470Z",
+  "program":  "c:\\Users\\styli\\INM706-Code\\train.py",
+  "codePath":  "train.py",
+  "git":  {
+    "remote":  "https://github.com/StylianosIoannou/INM706-Code.git",
+    "commit":  "59c2de072e667dbdbd46a45741703d62f836cdd6"
+  },
+  "email":  "stylianos.ioannou@city.ac.uk",
+  "root":  "c:\\Users\\styli\\INM706-Code",
+  "host":  "MSI",
+  "executable":  "C:\\Users\\styli\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\python.exe",
+  "codePathLocal":  "train.py"
+}
