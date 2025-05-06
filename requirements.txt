@@ -1,1 +1,6 @@
 #this file will install all the required libraries and their versions
+wandb
+tensorflow
+pandas
+numpy
+scikit-learn

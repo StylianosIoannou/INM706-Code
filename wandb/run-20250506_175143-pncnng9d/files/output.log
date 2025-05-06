@@ -1,0 +1,19 @@
+C:\Users\danie\AppData\Local\Programs\Python\Python311\Lib\site-packages\keras\src\layers\rnn\rnn.py:200: UserWarning: Do not pass an `input_shape`/`input_dim` argument to a layer. When using Sequential models, prefer using an `Input(shape)` object as the first layer in the model instead.
+  super().__init__(**kwargs)
+[34m[1mwandb[0m: [33mWARNING[0m When using `save_best_only`, ensure that the `filepath` argument contains formatting placeholders like `{epoch:02d}` or `{batch:02d}`. This ensures correct interpretation of the logged artifacts.
+Epoch 1/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m88s[0m 5ms/step - accuracy: 0.9492 - loss: 0.1797 - val_accuracy: 0.9353 - val_loss: 0.1721
+WARNING:absl:You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`.
+Epoch 2/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m84s[0m 4ms/step - accuracy: 0.9586 - loss: 0.1194 - val_accuracy: 0.9441 - val_loss: 0.2120
+Epoch 3/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m85s[0m 4ms/step - accuracy: 0.9564 - loss: 0.1350 - val_accuracy: 0.9435 - val_loss: 0.2418
+Epoch 4/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m85s[0m 4ms/step - accuracy: 0.9642 - loss: 0.1059 - val_accuracy: 0.9410 - val_loss: 0.1808
+Epoch 5/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m85s[0m 4ms/step - accuracy: 0.9614 - loss: 0.1155 - val_accuracy: 0.9337 - val_loss: 0.1664
+WARNING:absl:You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`.
+Epoch 6/10
+[1m19149/19149[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m86s[0m 4ms/step - accuracy: 0.9637 - loss: 0.1083 - val_accuracy: 0.9446 - val_loss: 0.1666
+Epoch 7/10
+[1m14764/19149[0m [32m━━━━━━━━━━━━━━━[0m[37m━━━━━[0m [1m18s[0m 4ms/step - accuracy: 0.9618 - loss: 0.1154

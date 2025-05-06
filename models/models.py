@@ -1,0 +1,60 @@
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+
+
+def load_and_preprocess_data(file_path):
+    df = pd.read_csv(file_path)
+
+    # Calculate technical indicators
+    df['50_MA'] = df['close'].rolling(window=50).mean()
+    df['200_MA'] = df['close'].rolling(window=200).mean()
+    df['volatility'] = df['close'].rolling(window=20).std()
+    df['z_score'] = (df['close'] - df['50_MA']) / df['volatility']
+
+    # Drop missing values
+    df.dropna(inplace=True)
+
+    # Define binary target: 1 if price is 2+ std devs from mean (mean reversion zone), else 0
+    df['target'] = (abs(df['z_score']) > 2).astype(int)
+
+    return df
+
+
+def create_sequences(data, sequence_length=30):
+    X, y = [], []
+    for i in range(len(data) - sequence_length):
+        features = data.iloc[i:i + sequence_length][['close', '50_MA', '200_MA', 'volatility']].values
+        label = data.iloc[i + sequence_length]['target']
+        X.append(features)
+        y.append(label)
+    return np.array(X), np.array(y)
+
+
+def build_gru_model(input_shape):
+    model = tf.keras.Sequential([
+        tf.keras.layers.GRU(50, return_sequences=False, input_shape=input_shape),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(1, activation='sigmoid')
+    ])
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    return model
+
+
+def train_model(model, X_train, y_train, epochs=10, batch_size=32):
+    history = model.fit(
+        X_train,
+        y_train,
+        validation_split=0.1,
+        epochs=epochs,
+        batch_size=batch_size,
+        verbose=1
+    )
+    return model, history
+
+
+def evaluate_model(model, X_test, y_test):
+    loss, accuracy = model.evaluate(X_test, y_test)
+    print(f"Test Accuracy: {accuracy:.4f}")
+    return loss, accuracy

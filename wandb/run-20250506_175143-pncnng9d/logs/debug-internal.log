@@ -1,0 +1,17 @@
+{"time":"2025-05-06T17:51:43.5981253+01:00","level":"INFO","msg":"stream: starting","core version":"0.19.10","symlink path":"C:\\Users\\danie\\OneDrive\\Desktop\\INM706-Code-1\\wandb\\run-20250506_175143-pncnng9d\\logs\\debug-core.log"}
+{"time":"2025-05-06T17:51:43.8727117+01:00","level":"INFO","msg":"created new stream","id":"pncnng9d"}
+{"time":"2025-05-06T17:51:43.8727117+01:00","level":"INFO","msg":"stream: started","id":"pncnng9d"}
+{"time":"2025-05-06T17:51:43.8727117+01:00","level":"INFO","msg":"writer: Do: started","stream_id":"pncnng9d"}
+{"time":"2025-05-06T17:51:43.8727117+01:00","level":"INFO","msg":"handler: started","stream_id":"pncnng9d"}
+{"time":"2025-05-06T17:51:43.8727117+01:00","level":"INFO","msg":"sender: started","stream_id":"pncnng9d"}
+{"time":"2025-05-06T17:51:44.1914832+01:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-06T18:05:21.2030372+01:00","level":"ERROR","msg":"runconsolelogs: failed to write to file: failed to open file: open C:\\Users\\danie\\OneDrive\\Desktop\\INM706-Code-1\\wandb\\run-20250506_175143-pncnng9d\\files\\output.log: The process cannot access the file because it is being used by another process."}
+{"time":"2025-05-06T18:10:11.294216+01:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-06T18:10:11.294216+01:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-06T18:10:11.9721279+01:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-06T18:10:12.1781836+01:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2025-05-06T18:10:13.5740028+01:00","level":"INFO","msg":"stream: closing","id":"pncnng9d"}
+{"time":"2025-05-06T18:10:13.5780522+01:00","level":"INFO","msg":"handler: closed","stream_id":"pncnng9d"}
+{"time":"2025-05-06T18:10:13.5780522+01:00","level":"INFO","msg":"sender: closed","stream_id":"pncnng9d"}
+{"time":"2025-05-06T18:10:13.5780522+01:00","level":"INFO","msg":"writer: Close: closed","stream_id":"pncnng9d"}
+{"time":"2025-05-06T18:10:13.5780522+01:00","level":"INFO","msg":"stream: closed","id":"pncnng9d"}
