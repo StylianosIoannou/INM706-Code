@@ -27,7 +27,8 @@ config = wandb.config
 
 # Load and preprocess data
 data_path = "archive/prices-split-adjusted.csv"  
-df = load_and_preprocess_data(data_path)
+sentiment_path = "sentiment_scores.csv"
+df = load_and_preprocess_data(data_path, sentiment_path)
 X, y = create_sequences(df, sequence_length=config.sequence_length)
 
 # Train-test split
