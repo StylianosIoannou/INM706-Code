@@ -4,8 +4,19 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 
-def load_and_preprocess_data(file_path):
-    df = pd.read_csv(file_path)
+def load_and_preprocess_data(price_path="archive/prices-split-adjusted.csv", sentiment_path="sentiment_scores.csv"):
+    df = pd.read_csv(price_path)
+    df["date"] = pd.to_datetime(df["date"])
+
+
+    # Load sentiment data and convert dates
+    sentiment_df = pd.read_csv(sentiment_path)
+    sentiment_df["date"] = pd.to_datetime(sentiment_df["date"])
+
+    # Merge on date using left join
+    df = pd.merge(df, sentiment_df, on="date", how="left")
+    df["sentiment"] = df["sentiment"].fillna(0)
+
 
     # Calculate technical indicators
     df['50_MA'] = df['close'].rolling(window=50).mean()
@@ -25,7 +36,7 @@ def load_and_preprocess_data(file_path):
 def create_sequences(data, sequence_length=30):
     X, y = [], []
     for i in range(len(data) - sequence_length):
-        features = data.iloc[i:i + sequence_length][['close', '50_MA', '200_MA', 'volatility']].values
+        features = data.iloc[i:i + sequence_length][['close', '50_MA', '200_MA', 'volatility', 'sentiment']].values
         label = data.iloc[i + sequence_length]['target']
         X.append(features)
         y.append(label)
