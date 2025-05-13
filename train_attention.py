@@ -1,49 +1,65 @@
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, random_split
 import wandb
-from wandb.integration.keras import WandbMetricsLogger, WandbModelCheckpoint
-from sklearn.model_selection import train_test_split
-from models.models import load_and_preprocess_data, create_sequences
-from models.attention_model import build_attention_gru_model
+from models.models import load_and_preprocess_data, create_sequences, SequenceDataset
+from models.attention_model import AttentionGRUModel
 
-# Initialize wandb
-wandb.init(
-    project="INM706",
-    entity="INM706",
-    config={
-        "model": "GRU + Attention",
-        "sequence_length": 30,
-        "batch_size": 32,
-        "epochs": 10,
-        "learning_rate": 0.001,
-        "dataset": "prices-split-adjusted.csv"
-    }
-)
+wandb.init(project="INM706", entity="INM706", config={
+    "model": "GRU+Attention",
+    "sequence_length": 30,
+    "batch_size": 32,
+    "epochs": 10,
+    "learning_rate": 0.001
+})
 config = wandb.config
 
-# Load and preprocess data
-data_path = "archive/prices-split-adjusted.csv"
-sentiment_path = "sentiment_scores.csv"
-df = load_and_preprocess_data(data_path, sentiment_path)
-X, y = create_sequences(df, sequence_length=config.sequence_length)
+df = load_and_preprocess_data()
+X, y = create_sequences(df, config.sequence_length)
+dataset = SequenceDataset(X, y)
+train_size = int(0.8 * len(dataset))
+val_size = len(dataset) - train_size
+train_set, val_set = random_split(dataset, [train_size, val_size])
 
-# Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+train_loader = DataLoader(train_set, batch_size=config.batch_size, shuffle=False)
+val_loader = DataLoader(val_set, batch_size=config.batch_size, shuffle=False)
 
-# Build and train model
-model = build_attention_gru_model(input_shape=(X_train.shape[1], X_train.shape[2]))
-history = model.fit(
-    X_train,
-    y_train,
-    validation_split=0.1,
-    epochs=config.epochs,
-    batch_size=config.batch_size,
-    verbose=1,
-    callbacks=[
-        WandbMetricsLogger(),
-        WandbModelCheckpoint(filepath="attention_model.h5", monitor="val_loss", save_best_only=True)
-    ]
-)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = AttentionGRUModel(input_size=5, hidden_size=50).to(device)
+criterion = nn.BCELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=config.learning_rate)
 
-# Evaluate model on test set
-loss, accuracy = model.evaluate(X_test, y_test)
-wandb.log({"test_loss": loss, "test_accuracy": accuracy})
+for epoch in range(config.epochs):
+    model.train()
+    total_loss, correct = 0, 0
+    for X_batch, y_batch in train_loader:
+        X_batch, y_batch = X_batch.to(device), y_batch.to(device)
+        optimizer.zero_grad()
+        outputs = model(X_batch)
+        loss = criterion(outputs, y_batch)
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item() * X_batch.size(0)
+        correct += ((outputs > 0.5) == y_batch).sum().item()
+
+    val_loss, val_correct = 0, 0
+    model.eval()
+    with torch.no_grad():
+        for X_val, y_val in val_loader:
+            X_val, y_val = X_val.to(device), y_val.to(device)
+            val_outputs = model(X_val)
+            loss = criterion(val_outputs, y_val)
+            val_loss += loss.item() * X_val.size(0)
+            val_correct += ((val_outputs > 0.5) == y_val).sum().item()
+
+    train_acc = correct / len(train_set)
+    val_acc = val_correct / len(val_set)
+    wandb.log({
+        "epoch": epoch,
+        "train_loss": total_loss / len(train_set),
+        "train_accuracy": train_acc,
+        "val_loss": val_loss / len(val_set),
+        "val_accuracy": val_acc
+    })
+
 wandb.finish()

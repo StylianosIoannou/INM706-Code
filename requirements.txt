@@ -1,6 +1,6 @@
 #this file will install all the required libraries and their versions
 wandb
-tensorflow
+torch
 pandas
 numpy
 scikit-learn
